@@ -1,79 +1,149 @@
 #include <Servo.h>
 
-#define esc1Pin 4
-#define esc2Pin 5
+// === Pin Definitions ===
+#define joystickPin 14   // Joystick analog input (A0)
+#define ESC1Pin 5        // ESC #1 control signal pin
+#define ESC2Pin 6        // ESC #2 control signal pin
+#define buzzerPin 3      // Buzzer output pin
+#define switchPin 8      // Mode switch input pin
 
-const int powerLedPin  = 8;
-const int statusLedPin = 6;
+// === Speed Limits ===
+#define normSpeedFWD 2000
+#define normSpeedREV 1000
+#define demoSpeedFWD 1750
+#define demoSpeedREV 1250
+#define stopSpeed 1500   // Neutral pulse width (ESC stop position)
 
-const int buzzerPin    = 7;
+// === Other Config ===
+#define deadband 5       // Deadband around neutral (±5 µs out of 1000 µs range)
 
-#define encoderCLKPin 2 //green
-#define encoderDataPin 3 //yelow
-
-#define throttleMin 1250
-#define throttleMax 1750
-#define throttleNone 1500
-#define throttleDeadband 4 // out of 50
-
-volatile int encoderPos = 0;
+// === Global Objects ===
 Servo esc1, esc2;
 
-void interuptHandler(){
-  int clkState  = digitalRead(encoderCLKPin);
-  int dataState = digitalRead(encoderDataPin);
-  if (clkState == dataState) encoderPos++;
-  else encoderPos--;
-}
+// === Mode Enumeration ===
+enum Speedmode {
+  NORM,
+  DEMO,
+};
 
+// === Global State Variables ===
+unsigned char estop = 0;        // Emergency stop flag
+Speedmode mode = Speedmode::DEMO; // Start in demo mode
+
+long timestamp;                 // Last time switch was pressed
+unsigned char lastSwitch = 1;   // Previous switch state
+
+// ==========================================================
+// setup() — Runs once on startup
+// ==========================================================
 void setup() {
-  esc1.attach(esc1Pin);
-  esc2.attach(esc2Pin);
-
-  //for testing. remove for final code
-  esc1.writeMicroseconds(1550);
-  esc2.writeMicroseconds(1550);
-  delay(2000);
-  esc1.writeMicroseconds(1450);
-  esc2.writeMicroseconds(1450);
-  delay(2000);
-  esc1.writeMicroseconds(throttleNone);
-  esc2.writeMicroseconds(throttleNone);
-
   Serial.begin(115200);
-  Serial.println("init");
 
-  pinMode(encoderCLKPin, INPUT_PULLUP);
-  pinMode(encoderDataPin, INPUT);
+  esc1.attach(ESC1Pin);
+  esc2.attach(ESC2Pin);
 
-  attachInterrupt(digitalPinToInterrupt(encoderCLKPin), interuptHandler, CHANGE);
+  pinMode(switchPin, INPUT_PULLUP);  // Switch is active LOW
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(joystickPin, INPUT);
+
+  // Startup tones for power-on confirmation
+  tone(buzzerPin, 512, 200);
+  delay(100);
+  tone(buzzerPin, 1024, 200);
 }
 
-
+// ==========================================================
+// loop() — Main control loop, runs continuously
+// ==========================================================
 void loop() {
-  encoderPos = constrain(encoderPos, -50, 50);
-  int pulse = map(encoderPos, -50, 50, throttleMin, throttleMax);
+  // === Read Inputs ===
+  int joystick = analogRead(joystickPin);
+  unsigned char switchVal = !digitalRead(switchPin);  // Active when pressed
 
-  if(abs(encoderPos) < throttleDeadband){
-    pulse = 0;
+  // === Check for Joystick Disconnect ===
+  // Temporarily drive the joystick pin HIGH and re-read to detect open circuit.
+  pinMode(joystickPin, OUTPUT);
+  digitalWrite(joystickPin, HIGH);
+  delay(2);
+  pinMode(joystickPin, INPUT);
+  int val = analogRead(joystickPin);
+
+  Serial.println(val);
+  if (val > 1020) {
+    estop = 1;  // Treat near-5V reading as disconnect
   }
 
-  esc1.writeMicroseconds(pulse);
-  esc2.writeMicroseconds(pulse);
+  // === Handle Emergency Stop ===
+  if (estop) {
+    esc1.writeMicroseconds(stopSpeed);
+    esc2.writeMicroseconds(stopSpeed);
 
-  // analogWrite(statusLedPin, map(pulse, throttleMin, throttleMax, 0, 255));
-  // if (pulse >= throttleMax) tone(buzzerPin, 1000);
-  // else noTone(buzzerPin);
-  // if (digitalRead(encoderSwPin) == LOW) {
-  //   esc1.writeMicroseconds(throttleNone);
-  //   esc2.writeMicroseconds(throttleNone);
-  //   digitalWrite(powerLedPin, LOW);
-  //   delay(200);
-  //   digitalWrite(powerLedPin, HIGH);
-  //   delay(200);
-  // }
-  Serial.println(encoderPos);
-  delay(50);
+    // Audible alarm: 3 short alternating beeps
+    for (int i = 0; i < 3; i++) {
+      tone(buzzerPin, 1024, 200);
+      delay(100);
+      tone(buzzerPin, 512, 200);
+      delay(100);
+    }
+    return;  // Skip rest of loop
+  }
+
+  // === Handle Mode Switch ===
+
+  // Detect rising edge (button pressed now, not pressed before)
+  if (!lastSwitch && switchVal) {
+    timestamp = millis();
+  }
+
+  // If switch is currently held down...
+  if (switchVal) {
+    // Held for >5 seconds → toggle mode
+    if (millis() - timestamp > 5000) {
+      mode = (mode == NORM) ? DEMO : NORM;
+      timestamp = millis();
+
+      // Play triple ascending tone sequence to indicate mode change
+      for (int i = 0; i < 3; i++) {
+        tone(buzzerPin, 512, 200);
+        delay(100);
+        tone(buzzerPin, 1024, 200);
+        delay(100);
+        tone(buzzerPin, 2048, 200);
+        delay(100);
+      }
+    }
+  }
+
+  // Update last switch state
+  lastSwitch = switchVal;
+
+  // === Map Joystick Input to ESC PWM ===
+  int PWMOut = (mode == NORM)
+                 ? map(joystick, 676, 0, normSpeedFWD, normSpeedREV)
+                 : map(joystick, 676, 0, demoSpeedFWD, demoSpeedREV);
+
+  // Apply deadband around stopSpeed
+  if (abs(PWMOut - stopSpeed) < deadband) {
+    PWMOut = stopSpeed;
+  }
+
+  // Invert second ESC output for mirrored motor orientation
+  int invertedPWMOut = map(PWMOut, 1000, 2000, 2000, 1000);
+
+  // === Drive ESCs ===
+  esc1.writeMicroseconds(PWMOut);
+  esc2.writeMicroseconds(invertedPWMOut);
+
+  // === Telemetry Output ===
+  Serial.print("joystick:");
+  Serial.print(joystick);
+  Serial.print(", Switch:");
+  Serial.print(switchVal);
+  Serial.print(", PWM out:");
+  Serial.print(PWMOut);
+  Serial.print(", mode:");
+  Serial.print(mode);
+  Serial.print("\n");
+
+  delay(50);  // Small loop delay for stability
 }
-
-
