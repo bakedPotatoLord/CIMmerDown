@@ -1,2 +1,5 @@
-This project transforms an Arduino Nano into a dual‐motor controller using two Rev Robotics SPARK ESCs, brushed motors, and a rotary encoder for intuitive throttle control. The system reads the encoder’s rotation to map position values into precise ESC PWM pulses (1000–2000 µs), ensuring smooth acceleration and braking. A status LED indicates throttle level and power, while a buzzer alerts at full throttle. The Nano is powered via a single ESC BEC output, and a hardware switch in the LiPo’s +12 V line provides safe power cutoff.
-![PXL_20250831_004111265](https://github.com/user-attachments/assets/693cea27-f7fb-4bbf-8ee3-46099c48e8ca)
+
+A project to control 2 drive 2 rev robotics spark ESCs from an arduino nano. uses a piezoelectric buzzer for sound alerts, and has detection and e-stop saety for unplugged joystick.
+
+<img width="686" height="911" alt="image" src="https://github.com/user-attachments/assets/6205ed80-c206-4190-a420-9c8874deb5df" />
+
