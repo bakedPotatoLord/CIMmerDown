@@ -1,6 +1,6 @@
 #include "board.h"
 #include "rf.h"
-#include "Arduino_BuiltIn.h"
+#include "Arduino.h"
 
 #define remote
 
