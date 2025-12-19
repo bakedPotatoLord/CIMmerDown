@@ -1,5 +1,4 @@
 #include <SPI.h>
-#include "printf.h"
 #include "RF24.h"
 #include "rf.h"
 #include "shared.h"
@@ -29,7 +28,6 @@ bool lastSwitch = 1;   // Previous switch state
 
 void rfSetup(){
 
-  printf_begin();
   pinMode(SWITCH_PIN, INPUT_PULLUP);  // Switch is active LOW
   pinMode(JOYSTICK_PIN, INPUT);
 
@@ -37,11 +35,6 @@ void rfSetup(){
   if (!radio.begin()) {
     Serial.println(F("radio hardware is not responding!!"));
     while (1) {}  // hold in infinite loop
-  }
- 
- 
-  while (!Serial.available()) {
-    // wait for user input
   }
 
   //set 2 byte CRCs, and 5 byte address
@@ -53,9 +46,14 @@ void rfSetup(){
   // each other.
   radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
  
-  // save on transmission time by setting the radio to only transmit the
-  // number of bytes we need to transmit a float
-  radio.setPayloadSize(sizeof(packet_t));  // float datatype occupies 4 bytes
+  radio.enableDynamicAck();  // ACK payloads are dynamically sized
+  radio.setPayloadSize(sizeof(packet_t));
+
+  // Acknowledgement packets have no payloads by default. We need to enable
+  // this feature for all nodes (TX & RX) to use ACK payloads.
+  radio.enableAckPayload();
+  radio.setRetries(5, 15);
+ 
  
   // set the TX address of the RX node for use on the TX pipe (pipe 0)
   radio.stopListening(addresses[radioNumber]);  // put radio in TX mode
@@ -82,8 +80,10 @@ void rfLoop(){
   int joystick = analogRead(JOYSTICK_PIN);
   unsigned char switchVal = !digitalRead(SWITCH_PIN);  // Active when pressed
 
-  printf("Joystick: %d, Switch: %d\n", joystick, switchVal);
-
+  Serial.print("Joystick: ");
+  Serial.print(joystick);
+  Serial.print(", Switch: ");
+  Serial.println(switchVal);
 
   // Detect rising edge (button pressed now, not pressed before)
   if (!lastSwitch && switchVal) {
@@ -122,10 +122,35 @@ void rfLoop(){
     unsigned long end_timer = micros();                  // end the timer
  
     if (report) {
-      Serial.print("Transmission successful! ");  // payload was delivered
-      printf("Time to transmit = %lu us, ", end_timer - start_timer);
-      printf("seq=%d, throttle = %d, flags = %d\n",payload.seq, payload.throttle, payload.flags);
+      Serial.println("Transmission successful! ");  // payload was delivered
+      
+
+      Serial.print("Time to transmit = ");
+      Serial.print(end_timer - start_timer);
+      Serial.print(" us, seq=");
+      Serial.println(payload.seq);
+      Serial.print(", throttle = ");
+      Serial.print(payload.throttle);
+      Serial.print(", flags = ");
+      Serial.println(payload.flags);
+
+
+
+      u8 pipe;
+
+      if (radio.available(&pipe)) {  // is there an ACK payload? grab the pipe number that received it
+        ack_payload_t received;
+        radio.read(&received, sizeof(received));  // get incoming ACK payload
+        
+          Serial.print("Received ACK packet, battery = ");
+          Serial.println(received.flags);
+          Serial.println();
+        
+      } else {
+        Serial.println(" no incoming ACK packet\n");  // empty ACK packet received
+      }
+
     } else {
-      Serial.println(F("Transmission failed or timed out"));  // payload was not delivered
+      Serial.println("Transmission failed or timed out");  // payload was not delivered
     }
 }
