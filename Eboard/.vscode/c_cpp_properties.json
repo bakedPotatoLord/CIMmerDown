@@ -43,6 +43,7 @@
             "defines": [
                 "PLATFORMIO=60118",
                 "ARDUINO_AVR_PRO",
+                "REMOTE",
                 "F_CPU=8000000L",
                 "ARDUINO_ARCH_AVR",
                 "ARDUINO=10808",

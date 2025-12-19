@@ -1,9 +1,14 @@
-#include "board.h"
-#include "rf.h"
+#ifdef REMOTE
+  #include "rf.h"
+#else
+  #include "board.h"
+#endif
+
 #include "Arduino.h"
 
-#define remote
+//if REMOTE is not defined, assume reciever
 
+bool led =0;
 
 // ==========================================================
 // setup() — Runs once on startup
@@ -11,20 +16,28 @@
 void setup() {
   Serial.begin(115200);
 
-  #ifdef remote
+  #ifdef REMOTE
     rfSetup();  // Initialize radio for remote control
   #else
     boardSetup();
   #endif
+
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 // ==========================================================
 // loop() — Main control loop, runs continuously
 // ==========================================================
 void loop() {
-  #ifdef remote
-    rfSetup();  // Initialize radio for remote control
+  #ifdef REMOTE
+    rfLoop();  // Initialize radio for remote control
   #else
     boardLoop();
   #endif
+
+  led = !led;
+  digitalWrite(LED_BUILTIN, led);
+  // Serial.println("hello from the loop");
+  delay(1000);
+
 }
