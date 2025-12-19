@@ -93,15 +93,15 @@ void boardLoop(){
 
   // === Handle Emergency Stop ===
   if (estop) {
-    esc1.writeMicroseconds(stopSpeed);
-    esc2.writeMicroseconds(stopSpeed);
+    esc1.writeMicroseconds(SPEED_STOP);
+    esc2.writeMicroseconds(SPEED_STOP);
 
     // Audible alarm: 3 short alternating beeps
     for (int i = 0; i < 3; i++) {
-      // tone(buzzerPin, 1024, 200);
-      // delay(100);
-      // tone(buzzerPin, 512, 200);
-      // delay(100);
+      tone(buzzerPin, 1024, 200);
+      delay(100);
+      tone(buzzerPin, 512, 200);
+      delay(100);
     }
     return;  // Skip rest of loop
   }
@@ -109,18 +109,16 @@ void boardLoop(){
   packet_t payload;
 
   uint8_t pipe;
-    if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
-      uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
-      radio.read(&payload, bytes);             // fetch payload from FIFO
-      Serial.print(F("Received "));
-      Serial.print(bytes);  // print the size of the payload
-      Serial.print(F(" bytes on pipe "));
-      Serial.print(pipe);  // print the pipe number
-      Serial.print(F(": "));
-      Serial.println(payload.seq);  // print the payload's value
-    }
-
-  
+  if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
+    uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
+    radio.read(&payload, bytes);             // fetch payload from FIFO
+    Serial.print(F("Received "));
+    Serial.print(bytes);  // print the size of the payload
+    Serial.print(F(" bytes on pipe "));
+    Serial.print(pipe);  // print the pipe number
+    Serial.print(F(": "));
+    Serial.println(payload.seq);  // print the payload's value
+  }
 
   // === Map Joystick Input to ESC PWM ===
   

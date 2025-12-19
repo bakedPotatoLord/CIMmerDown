@@ -7,16 +7,10 @@
 #define CE_PIN 9
 #define CSN_PIN 10
 
-#define switchPin 8      // Mode switch input pin
-#define joystickPin 14   // Joystick analog input (A0)
-#define deadband 5       // Deadband around neutral (±5 µs out of 1000 µs range)
+#define SWITCH_PIN 15      // Mode switch input pin (A1)
+#define JOYSTICK_PIN 14   // Joystick analog input (A0)
+#define DEADBAND 5       // Deadband around neutral (±5 µs out of 1000 µs range)
 
-// === Speed Limits ===
-#define normSpeedFWD 2000
-#define normSpeedREV 1000
-#define demoSpeedFWD 1750
-#define demoSpeedREV 1250
-#define stopSpeed 1500   // Neutral pulse width (ESC stop position)
 
 
 static RF24 radio(CE_PIN, CSN_PIN);
@@ -27,22 +21,17 @@ bool role = true;  // true = TX role, false = RX role
 
 u16 packetNum = 0;  
 
-enum Speedmode {
-  NORM,
-  DEMO,
-};
 
-Speedmode mode = Speedmode::DEMO; // Start in demo mode
+
+Speedmode mode = Speedmode::SLOW; // Start in demo mode
 long timestamp;                 // Last time switch was pressed
 bool lastSwitch = 1;   // Previous switch state
 
 void rfSetup(){
 
-
-  pinMode(switchPin, INPUT_PULLUP);  // Switch is active LOW
-  pinMode(joystickPin, INPUT);
-
-  
+  printf_begin();
+  pinMode(SWITCH_PIN, INPUT_PULLUP);  // Switch is active LOW
+  pinMode(JOYSTICK_PIN, INPUT);
 
 
   if (!radio.begin()) {
@@ -83,9 +72,18 @@ void rfSetup(){
 
 void rfLoop(){
 
+
+  struct packet_t payload = {};
+
+  payload.seq = packetNum++;
+  payload.flags = FLAG_NONE;
+
   // === Read Inputs ===
-  int joystick = analogRead(joystickPin);
-  unsigned char switchVal = !digitalRead(switchPin);  // Active when pressed
+  int joystick = analogRead(JOYSTICK_PIN);
+  unsigned char switchVal = !digitalRead(SWITCH_PIN);  // Active when pressed
+
+  printf("Joystick: %d, Switch: %d\n", joystick, switchVal);
+
 
   // Detect rising edge (button pressed now, not pressed before)
   if (!lastSwitch && switchVal) {
@@ -96,45 +94,37 @@ void rfLoop(){
   if (switchVal) {
     // Held for >5 seconds → toggle mode
     if (millis() - timestamp > 5000) {
-      mode = (mode == NORM) ? DEMO : NORM;
+      mode = (mode == FAST) ? SLOW : FAST;
       timestamp = millis();
 
       //trigger mode switch
+      payload.flags = (mode == FAST) ? FLAG_FAST : FLAG_SLOW;
     }
   }
 
   // Update last switch state
   lastSwitch = switchVal;
 
-  int PWMOut = (mode == NORM)
-                 ? map(joystick, 676, 0, normSpeedFWD, normSpeedREV)
-                 : map(joystick, 676, 0, demoSpeedFWD, demoSpeedREV);
+  int PWMOut = (mode == FAST)
+    ? map(joystick, 0, 1023, SPEED_FAST_REV, SPEED_FAST_FWD)
+    : map(joystick, 0, 1023, SPEED_SLOW_REV, SPEED_SLOW_FWD);
 
   // Apply deadband around stopSpeed
-  if (abs(PWMOut - stopSpeed) < deadband) {
-    PWMOut = stopSpeed;
+  if (abs(PWMOut - SPEED_STOP) < DEADBAND) {
+    PWMOut = SPEED_STOP;
   }
 
-  // Invert second ESC output for mirrored motor orientation
-  int invertedPWMOut = map(PWMOut, 1000, 2000, 2000, 1000);
-
-
-  struct packet_t payload = {
-    .seq = packetNum++,
-    .throttle = 0
-  };
-  
+  payload.throttle = PWMOut;
+ 
 
   unsigned long start_timer = micros();                // start the timer
     bool report = radio.write(&payload, (u8) sizeof(packet_t));  // transmit & save the report
     unsigned long end_timer = micros();                  // end the timer
  
     if (report) {
-      Serial.print(F("Transmission successful! "));  // payload was delivered
-      Serial.print(F("Time to transmit = "));
-      Serial.print(end_timer - start_timer);  // print the timer result
-      Serial.print(F(" us. Sent: "));
-      Serial.println(payload.throttle);  // print payload sent
+      Serial.print("Transmission successful! ");  // payload was delivered
+      printf("Time to transmit = %lu us, ", end_timer - start_timer);
+      printf("seq=%d, throttle = %d, flags = %d\n",payload.seq, payload.throttle, payload.flags);
     } else {
       Serial.println(F("Transmission failed or timed out"));  // payload was not delivered
     }
