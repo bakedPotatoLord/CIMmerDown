@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include "RF24.h"
-#include "rf.h"
+#include "controller.h"
 #include "shared.h"
 
 #define CE_PIN 9

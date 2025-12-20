@@ -1,5 +1,5 @@
 #ifdef REMOTE
-  #include "rf.h"
+  #include "controller.h"
 #else
   #include "board.h"
 #endif
