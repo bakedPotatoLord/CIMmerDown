@@ -7,7 +7,7 @@
 #include "Arduino.h"
 #include <avr/sleep.h>
 
-#define CYCLE_FREQ 20UL //clock frequency in Hz
+#define CYCLE_FREQ 1UL //clock frequency in Hz
 #define CYCLE_WAVELEN ( 1000UL / CYCLE_FREQ) //wavelength in ms
 
 //if REMOTE is not defined, assume reciever
@@ -20,9 +20,9 @@ void setup() {
   #ifdef _debug
   Serial.begin(115200);
   #endif
-  
+
   #ifdef REMOTE
-    rfSetup();  // Initialize radio for remote control
+    controllerSetup();  // Initialize radio for remote control
   #else
     boardSetup();
   #endif
@@ -45,7 +45,7 @@ void loop() {
     #endif
     lastLoop = millis();
     #ifdef REMOTE
-      rfLoop();  // Initialize radio for remote control
+      controllerLoop();  // Initialize radio for remote control
     #else
       boardLoop();
     #endif

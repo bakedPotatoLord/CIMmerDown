@@ -22,7 +22,7 @@ Speedmode mode = Speedmode::SLOW; // Start in demo mode
 long timestamp; // Last time switch was pressed
 bool lastSwitch = 1; // Previous switch state
 
-void rfSetup(){
+void controllerSetup(){
   pinMode(SWITCH_PIN, INPUT_PULLUP);  // Switch is active LOW
   pinMode(JOYSTICK_PIN, INPUT);
 
@@ -64,7 +64,7 @@ void rfSetup(){
   
 }
 
-void rfLoop(){
+void controllerLoop(){
 
   struct packet_t payload = {};
   payload.seq = packetNum++;
@@ -113,7 +113,7 @@ void rfLoop(){
   payload.throttle = PWMOut;
  
 
-  unsigned long start_timer = micros();                // start the timer
+    unsigned long start_timer = micros();                // start the timer
     bool report = radio.write(&payload, (u8) sizeof(packet_t));  // transmit & save the report
     unsigned long end_timer = micros();                  // end the timer
  

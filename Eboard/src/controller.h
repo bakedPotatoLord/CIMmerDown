@@ -1,4 +1,4 @@
 
-void rfSetup();
+void controllerSetup();
 
-void rfLoop();
+void controllerLoop();
