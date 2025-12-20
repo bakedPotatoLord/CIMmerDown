@@ -17,8 +17,10 @@
 // setup() — Runs once on startup
 // ==========================================================
 void setup() {
+  #ifdef _debug
   Serial.begin(115200);
-
+  #endif
+  
   #ifdef REMOTE
     rfSetup();  // Initialize radio for remote control
   #else
@@ -36,10 +38,11 @@ u32 lastLoop = 0;
 
 void loop() {
   u32 now = millis();
-
   if(now - lastLoop > CYCLE_WAVELEN){ 
+    #ifdef _debug
     Serial.println(now);
     Serial.println(lastLoop);
+    #endif
     lastLoop = millis();
     #ifdef REMOTE
       rfLoop();  // Initialize radio for remote control
@@ -52,5 +55,4 @@ void loop() {
     sleep_cpu();
     sleep_disable();
   }
-
 }

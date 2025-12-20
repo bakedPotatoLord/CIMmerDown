@@ -36,7 +36,9 @@ void boardSetup(){
 
   // initialize the transceiver on the SPI bus
   if (!radio.begin()) {
-    Serial.println(F("radio hardware is not responding!!"));
+    #ifdef _debug
+    Serial.println("radio hardware is not responding!!");
+    #endif
     while (1) {}  // hold in infinite loop
   }
 
@@ -51,19 +53,12 @@ void boardSetup(){
     // some boards need to wait to ensure access to serial over USB
   } 
  
-  // Set the PA Level low to try preventing power supply related problems
-  // because these examples are likely run with nodes in close proximity to
-  // each other.
+  
   radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
- 
-   radio.enableDynamicAck();  // ACK payloads are dynamically sized
+  radio.enableDynamicAck();  // ACK payloads are dynamically sized
   radio.setPayloadSize(sizeof(ack_payload_t));
-
-  // Acknowledgement packets have no payloads by default. We need to enable
-  // this feature for all nodes (TX & RX) to use ACK payloads.
   radio.enableAckPayload();
   radio.setRetries(5, 15);
- 
  
   // set the TX address of the RX node for use on the TX pipe (pipe 0)
   radio.stopListening(addresses[radioNumber]);  // put radio in TX mode
@@ -76,33 +71,33 @@ void boardSetup(){
     radio.startListening();  // put radio in RX mode
   }
 
-
   pinMode(BUZZER_PIN, OUTPUT);
-
   // Startup tones for power-on confirmation
-  // tone(BUZZER_PIN, 512, 200);
+  #ifndef mute
+  tone(BUZZER_PIN, 512, 100);
   delay(100);
-  // tone(BUZZER_PIN, 1024, 200);
+  tone(BUZZER_PIN, 1024, 100);
+  #endif
 }
 
 void boardLoop(){
-  
- 
-
   // === Handle Emergency Stop ===
   if (estop) {
     esc1.writeMicroseconds(SPEED_STOP);
     esc2.writeMicroseconds(SPEED_STOP);
 
+    #ifdef _debug
     Serial.println("Emergency Stop!");
-
+    #endif
     // Audible alarm: 3 short alternating beeps
+    #ifndef mute
     for (int i = 0; i < 3; i++) {
-      // tone(BUZZER_PIN, 1024, 200);
+      tone(BUZZER_PIN, 1024, 200);
       delay(100);
-      // tone(BUZZER_PIN, 512, 200);
+      tone(BUZZER_PIN, 512, 200);
       delay(100);
     }
+    #endif
     return;  // Skip rest of loop
   }
 
@@ -111,33 +106,32 @@ void boardLoop(){
   packet_t payload;
   ack_payload_t ackPayload;
   uint8_t pipe;
-  if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
+  if (radio.available(&pipe)) { // is there a payload? get the pipe number that received it
     foundController = 1;
     uint8_t bytes = radio.getDynamicPayloadSize();  // get the size of the payload
-    radio.read(&payload, bytes);             // fetch payload from FIFO
-
+    radio.read(&payload, bytes); // fetch payload from FIFO
     lastMsg = millis();
 
-    Serial.print("Board recieved Packet.Sequence number: ");
-
-    Serial.println(payload.seq);
-    Serial.print("timestamp:");
-    Serial.println(lastMsg);
-
-    float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
     
-
+    float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
     if (battVoltage < 9.6f){
       batteryState = FLAG_BATT_NEAR_LOW;
     }else if(battVoltage < 9.0f){
       batteryState = FLAG_BATT_LOW;
     }
-    Serial.print("Batt Voltage: "); Serial.println(battVoltage);
-    Serial.print("Battery flags: "); Serial.println(batteryState);
+    #ifdef _debug
+    Serial.print("Board recieved Packet.Sequence number: ");
+    Serial.println(payload.seq);
+    Serial.print("timestamp:");
+    Serial.println(lastMsg);
+    Serial.print("Batt Voltage: "); 
+    Serial.println(battVoltage);
+    Serial.print("Battery flags: "); 
+    Serial.println(batteryState);
     Serial.println();
+    #endif
   
     radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
-
     if(batteryState != FLAG_BATT_LOW){
       u16 speed = payload.throttle;
       u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
@@ -150,22 +144,12 @@ void boardLoop(){
     u32 m = millis();
     if(foundController && (m - lastMsg > 3000)){
       //if had controller, and no message for 1 second
-
+      #ifdef _debug
       Serial.println("Controller lost");
       Serial.println(m);
       Serial.println(lastMsg);
-
-      
+      #endif
       estop = 1;
     }
-
   }
-
-  // === Map Joystick Input to ESC PWM ===
-  
-  // === Drive ESCs ===
-  // esc1.writeMicroseconds(PWMOut);
-  // esc2.writeMicroseconds(invertedPWMOut);
-
-
 }

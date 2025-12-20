@@ -10,10 +10,7 @@
 #define JOYSTICK_PIN 14   // Joystick analog input (A0)
 #define DEADBAND 5       // Deadband around neutral (±5 µs out of 1000 µs range)
 
-
-
 static RF24 radio(CE_PIN, CSN_PIN);
-
 
 static bool radioNumber = 0;
 bool role = true;  // true = TX role, false = RX role
@@ -21,19 +18,18 @@ bool role = true;  // true = TX role, false = RX role
 u16 packetNum = 0;  
 
 
-
 Speedmode mode = Speedmode::SLOW; // Start in demo mode
-long timestamp;                 // Last time switch was pressed
-bool lastSwitch = 1;   // Previous switch state
+long timestamp; // Last time switch was pressed
+bool lastSwitch = 1; // Previous switch state
 
 void rfSetup(){
-
   pinMode(SWITCH_PIN, INPUT_PULLUP);  // Switch is active LOW
   pinMode(JOYSTICK_PIN, INPUT);
 
-
   if (!radio.begin()) {
+    #ifdef _debug 
     Serial.println(F("radio hardware is not responding!!"));
+    #endif
     while (1) {}  // hold in infinite loop
   }
 
@@ -70,9 +66,7 @@ void rfSetup(){
 
 void rfLoop(){
 
-
   struct packet_t payload = {};
-
   payload.seq = packetNum++;
   payload.flags = FLAG_NONE;
 
@@ -80,10 +74,12 @@ void rfLoop(){
   int joystick = analogRead(JOYSTICK_PIN);
   unsigned char switchVal = !digitalRead(SWITCH_PIN);  // Active when pressed
 
+  #ifdef _debug
   Serial.print("Joystick: ");
   Serial.print(joystick);
   Serial.print(", Switch: ");
   Serial.println(switchVal);
+  #endif
 
   // Detect rising edge (button pressed now, not pressed before)
   if (!lastSwitch && switchVal) {
@@ -122,9 +118,8 @@ void rfLoop(){
     unsigned long end_timer = micros();                  // end the timer
  
     if (report) {
+      #ifdef _debug
       Serial.println("Transmission successful! ");  // payload was delivered
-      
-
       Serial.print("Time to transmit = ");
       Serial.print(end_timer - start_timer);
       Serial.print(" us, seq=");
@@ -133,24 +128,26 @@ void rfLoop(){
       Serial.print(payload.throttle);
       Serial.print(", flags = ");
       Serial.println(payload.flags);
-
-
+      #endif
 
       u8 pipe;
-
       if (radio.available(&pipe)) {  // is there an ACK payload? grab the pipe number that received it
         ack_payload_t received;
         radio.read(&received, sizeof(received));  // get incoming ACK payload
-        
+          #ifdef _debug        
           Serial.print("Received ACK packet, battery = ");
           Serial.println(received.flags);
           Serial.println();
-        
+          #endif
       } else {
+        #ifdef _debug
         Serial.println(" no incoming ACK packet\n");  // empty ACK packet received
+        #endif
       }
 
     } else {
+      #ifdef _debug
       Serial.println("Transmission failed or timed out");  // payload was not delivered
+      #endif
     }
 }
