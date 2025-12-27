@@ -11,8 +11,8 @@
 #define VDIV_PIN 14 // Voltage divider pin A0
 
 #define VDIV_R1 10e3f // resistor from A0 to GND
-#define VDIV_R2 20e3f // resistor from VCC RAW to A0
-#define VDIV_REF 4.97f // reference voltage
+#define VDIV_R2 110e3f // resistor from VCC RAW to A0
+#define VDIV_REF 1.1f // reference voltage 
 
 //convert raw ADC value to input voltage
 #define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1
@@ -47,6 +47,10 @@ void boardSetup(){
   esc2.attach(ESC2Pin);
 
   pinMode(VDIV_PIN, INPUT);
+  analogReference(INTERNAL);
+  analogRead(VDIV_PIN); //throwaway read
+  delayMicroseconds(50);
+
   pinMode(BUZZER_PIN, OUTPUT);
 
   while (!Serial) {
@@ -101,7 +105,7 @@ void boardLoop(){
     return;  // Skip rest of loop
   }
 
-  
+  float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
 
   packet_t payload;
   ack_payload_t ackPayload;
@@ -113,7 +117,6 @@ void boardLoop(){
     lastMsg = millis();
 
     
-    float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
     if (battVoltage < 9.6f){
       batteryState = FLAG_BATT_NEAR_LOW;
     }else if(battVoltage < 9.0f){
@@ -150,6 +153,10 @@ void boardLoop(){
       Serial.println(lastMsg);
       #endif
       estop = 1;
+    }else{
+      Serial.println("waiting for controller");
+      Serial.print("batt voltage: ");
+      Serial.println(battVoltage);
     }
   }
 }
