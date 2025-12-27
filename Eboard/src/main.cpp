@@ -27,7 +27,13 @@ void setup() {
     boardSetup();
   #endif
 
-  pinMode(LED_BUILTIN, OUTPUT);
+  #ifdef _debug
+  Serial.println("debug");
+  #else
+  Serial.println("no debug");
+  #endif
+
+
 }
 
 // ==========================================================
@@ -40,8 +46,8 @@ void loop() {
   u32 now = millis();
   if(now - lastLoop > CYCLE_WAVELEN){ 
     #ifdef _debug
+    Serial.print("\nnow: ");
     Serial.println(now);
-    Serial.println(lastLoop);
     #endif
     lastLoop = millis();
     #ifdef REMOTE
