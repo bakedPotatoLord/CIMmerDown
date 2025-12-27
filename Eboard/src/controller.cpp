@@ -10,6 +10,14 @@
 #define JOYSTICK_PIN 14   // Joystick analog input (A0)
 #define DEADBAND 5       // Deadband around neutral (±5 µs out of 1000 µs range)
 
+#define VDIV_PIN 14 // Voltage divider pin A0
+
+#define VDIV_R1 33e3f // resistor from A0 to GND 
+#define VDIV_R2 100e3f // resistor from VCC RAW to A0 
+#define VDIV_REF 1.1f // reference voltage 
+//convert raw ADC value to input voltage
+#define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1
+
 static RF24 radio(CE_PIN, CSN_PIN);
 
 static bool radioNumber = 0;
