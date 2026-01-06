@@ -6,15 +6,16 @@
 #define CE_PIN 9
 #define CSN_PIN 10
 
-#define SWITCH_PIN 15      // Mode switch input pin (A1)
-#define JOYSTICK_PIN 14   // Joystick analog input (A0)
+
+#define SWITCH_PIN 16      // Mode switch input pin (A2)
+#define JOYSTICK_PIN 15   // Joystick analog input (A1)  
 #define DEADBAND 5       // Deadband around neutral (±5 µs out of 1000 µs range)
 
 #define VDIV_PIN 14 // Voltage divider pin A0
 
 #define VDIV_R1 33e3f // resistor from A0 to GND 
 #define VDIV_R2 100e3f // resistor from VCC RAW to A0 
-#define VDIV_REF 1.1f // reference voltage 
+#define VDIV_REF 3.3f // reference voltage 
 //convert raw ADC value to input voltage
 #define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1
 
@@ -33,6 +34,7 @@ bool lastSwitch = 1; // Previous switch state
 void controllerSetup(){
   pinMode(SWITCH_PIN, INPUT_PULLUP);  // Switch is active LOW
   pinMode(JOYSTICK_PIN, INPUT);
+  pinMode(VDIV_PIN, INPUT);
 
   if (!radio.begin()) {
     #ifdef _debug 
@@ -79,7 +81,8 @@ void controllerLoop(){
   payload.flags = FLAG_NONE;
 
   // === Read Inputs ===
-  int joystick = analogRead(JOYSTICK_PIN);
+  u16 joystick = getJoystick();
+  float battery = getBattery();
   unsigned char switchVal = !digitalRead(SWITCH_PIN);  // Active when pressed
 
   #ifdef _debug
@@ -87,6 +90,8 @@ void controllerLoop(){
   Serial.print(joystick);
   Serial.print(", Switch: ");
   Serial.println(switchVal);
+  Serial.print("Battery: ");
+  Serial.println(battery);
   #endif
 
   // Detect rising edge (button pressed now, not pressed before)
@@ -158,4 +163,16 @@ void controllerLoop(){
       Serial.println("Transmission failed or timed out");  // payload was not delivered
       #endif
     }
+}
+
+
+u16 getJoystick(){
+  analogReference(DEFAULT);
+  return analogRead(JOYSTICK_PIN);
+}
+
+
+float getBattery(){
+  analogReference(DEFAULT);
+  return CONVERT_VDIV( (float) analogRead(VDIV_PIN));
 }
