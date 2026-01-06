@@ -47,7 +47,7 @@ void boardSetup(){
   esc2.attach(ESC2Pin);
 
   pinMode(VDIV_PIN, INPUT);
-  analogReference(INTERNAL);
+  analogReference(INTERNAL);    
   analogRead(VDIV_PIN); //throwaway read
   delayMicroseconds(50);
 
@@ -116,6 +116,7 @@ void boardLoop(){
     radio.read(&payload, bytes); // fetch payload from FIFO
     lastMsg = millis();
 
+    u16 speed = payload.throttle;
     
     if (battVoltage < 9.6f){
       batteryState = FLAG_BATT_NEAR_LOW;
@@ -131,12 +132,14 @@ void boardLoop(){
     Serial.println(battVoltage);
     Serial.print("Battery flags: "); 
     Serial.println(batteryState);
+    Serial.print("Speed: ");
+    Serial.println(speed);
     Serial.println();
     #endif
+
   
     radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
     if(batteryState != FLAG_BATT_LOW){
-      u16 speed = payload.throttle;
       u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
       esc1.writeMicroseconds(speed);
       esc2.writeMicroseconds(invertedSpeed);
