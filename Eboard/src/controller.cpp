@@ -35,7 +35,8 @@ u16 packetNum = 0;
 Speedmode mode = Speedmode::SLOW; // Start in demo mode
 long timestamp; // Last time switch was pressed
 bool lastSwitch = 1; // Previous switch state
-Status status = Status::ok_slow;
+Status status = Status::await_connect;
+u32 lastmsgRecv = 0;
 
 void controllerSetup(){
   pinMode(SWITCH_PIN, INPUT_PULLUP);  // Switch is active LOW
@@ -180,6 +181,7 @@ void controllerLoop(){
         Serial.println();
         #endif
 
+        lastmsgRecv = millis();
         if(received.flags & FLAG_BOARD_BATT_LOW){
           status = Status::board_batt_low;
         }else if(received.flags & FLAG_BOARD_BATT_DEAD){
@@ -191,11 +193,18 @@ void controllerLoop(){
       #endif
     }
 
-    } else {
-      #ifdef _debug
-      Serial.println("Transmission failed or timed out");  // payload was not delivered
-      #endif
+  } else {
+    #ifdef _debug
+    Serial.println("Transmission failed or timed out");  // payload was not delivered
+    #endif
+    if(lastmsgRecv != 0 &&
+       millis() - lastmsgRecv > 2000 &&
+       ( status == Status::ok_fast || status == Status::ok_slow)){
+      //if no ack received in 2 seconds, go back to await connect
+      status = Status::await_connect;
+      
     }
+  }
 }
 
 
