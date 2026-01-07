@@ -7,7 +7,9 @@
 #include "Arduino.h"
 #include <avr/sleep.h>
 
+#ifndef CYCLE_FREQ //default to 1Hz
 #define CYCLE_FREQ 1UL //clock frequency in Hz
+#endif
 #define CYCLE_WAVELEN ( 1000UL / CYCLE_FREQ) //wavelength in ms
 
 //if REMOTE is not defined, assume reciever
