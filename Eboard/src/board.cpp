@@ -30,7 +30,7 @@ static bool foundController = 0;
 static bool radioNumber = 1;
 const bool role = false;  // true = TX role, false = RX role
 static u32 lastMsg;
-static u8 batteryState = FLAG_BATT_OK;
+static u8 batteryState = 0x0;
 
 void boardSetup(){
 
@@ -119,9 +119,9 @@ void boardLoop(){
     u16 speed = payload.throttle;
     
     if (battVoltage < 9.6f){
-      batteryState = FLAG_BATT_NEAR_LOW;
+      batteryState = FLAG_BOARD_BATT_LOW;
     }else if(battVoltage < 9.0f){
-      batteryState = FLAG_BATT_LOW;
+      batteryState = FLAG_BOARD_BATT_DEAD;
     }
     #ifdef _debug
     Serial.print("Board recieved Packet.Sequence number: ");
@@ -139,7 +139,7 @@ void boardLoop(){
 
   
     radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
-    if(batteryState != FLAG_BATT_LOW){
+    if(batteryState != FLAG_BOARD_BATT_DEAD){
       u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
       esc1.writeMicroseconds(speed);
       esc2.writeMicroseconds(invertedSpeed);
