@@ -18,9 +18,7 @@
 
 #define FLAG_NONE 0
 
-#define FLAG_BATT_OK (u8)(0)
-#define FLAG_BATT_NEAR_LOW (u8)(1 <<0)
-#define FLAG_BATT_LOW (u8)(1 << 1)
+
 
 
 enum Speedmode {
@@ -34,8 +32,11 @@ struct packet_t {
   u8 flags; //0x01 = switch to fast mode. 0x02 = switch to slow mode
 };  
 
+
+#define FLAG_BOARD_BATT_LOW (u8)(1 <<0)
+#define FLAG_BOARD_BATT_DEAD (u8)(1 << 1)
 struct ack_payload_t{
-  u8 flags;
+  u8 flags; //board flags
 };
 
 
