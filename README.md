@@ -12,7 +12,11 @@ Documentation/Development are not yet complete. Help is always appreciated.
 - People of the oposite sex may find you more attractive.
 - Disconnection detection and e-stop safety.
 
-## more details
+## More Details
+
+further, yet incomplete documentation can be found at these pages:
+
+- [Electronics](/Electronics.md)
 
 ## Selected Media
 <img width="1210" height="911" alt="image" src="https://github.com/user-attachments/assets/fc27cdb2-b046-4469-aa0e-5e3f823201e0" />
