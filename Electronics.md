@@ -2,18 +2,18 @@
 
 These electronics were developed organicaly, and evolved from a wired version of the board.
 Along the prototyping process, I switched from an arduino Nano as the longboard controller to an arduino Pro mini 3.3v for both systems.
+To be fully honest, this happened because I fried all my arduino nanos, and didn't want to wait for more to ship.
 
 ## Schematic
-![electronics](./media/CimmerDown_schematic.svg)
-
 
 You can download a PDF version of the schematic [here](./media/CimmerDown_schematic.pdf).
+when the final revision is complete, I'll put a PNG here.
 
 ## Construction
 
 Physically constructing the boards will require some [perfboard](https://en.wikipedia.org/wiki/Perfboard), all the components, and some soldering.
 
-Cere is a list of the electrical components to assemble before beginning on making the boards:
+Here is a list of the electrical components to assemble before beginning on making the boards:
 
 
 | Component | Symbol | Quantity | Description |
@@ -43,6 +43,7 @@ the following is one way to wire up the boards. it is not difinitively, the only
   - [] solder long side Pins to perfboard. Make sure they are in the right spot, according to the image
   - [] 
 
+⚠️DOCS INCOMPLETE⚠️
 
 ## PCB
 
