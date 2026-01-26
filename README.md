@@ -2,9 +2,17 @@
 # CIMmer Down
 A project to control 2 drive 2 rev robotics spark ESCs from an arduino nano. 
 
+Documentation/Development are not yet complete. Help is always appreciated.
+
 ## Features
-- Piezoelectric buzzer for sound alerts
-- Detection and e-stop safety for unplugged joystick.
+- Handheld remote
+- Status LED
+- 2 speed modes
+- 16mph top speed
+- People of the oposite sex may find you more attractive.
+- Disconnection detection and e-stop safety.
+
+## more details
 
 ## Selected Media
 <img width="1210" height="911" alt="image" src="https://github.com/user-attachments/assets/fc27cdb2-b046-4469-aa0e-5e3f823201e0" />
@@ -13,3 +21,5 @@ A project to control 2 drive 2 rev robotics spark ESCs from an arduino nano.
 
 ## Why is is called that?
 the `CIM` from CIMmer down is a reference to FRC [CIM](https://andymark.com/products/2-5-in-cim-motor) motor.
+
+
