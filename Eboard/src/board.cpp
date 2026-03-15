@@ -4,24 +4,26 @@
 #include "board.h"
 #include "shared.h"
 
+// #include "PPMEncoder.h"
+
 // === Pin Definitions ===
 #define ESC1Pin 5        // ESC #1 control signal pin
 #define ESC2Pin 6        // ESC #2 control signal pin
 #define BUZZER_PIN 3      // Buzzer output pin
-#define VDIV_PIN 14 // Voltage divider pin A0
 
-#define VDIV_R1 10e3f // resistor from A0 to GND
-#define VDIV_R2 110e3f // resistor from VCC RAW to A0
-#define VDIV_REF 1.1f // reference voltage 
+#define PPM_PIN 4
 
-//convert raw ADC value to input voltage
-#define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1
+// #define VDIV_R1 10e3f // resistor from A0 to GND
+// #define VDIV_R2 110e3f // resistor from VCC RAW to A0
+// #define VDIV_REF 1.1f // reference voltage 
 
-#define CE_PIN 9
+// //convert raw ADC value to input voltage
+// #define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1
+
+#define CE_PIN 14
 #define CSN_PIN 10
 
 // === Global Objects ===
-Servo esc1, esc2;
 static RF24 radio(CE_PIN, CSN_PIN);
 
 // === Global State Variables ===
@@ -42,14 +44,11 @@ void boardSetup(){
     while (1) {}  // hold in infinite loop
   }
 
-  Serial.begin(115200);
-  esc1.attach(ESC1Pin);
-  esc2.attach(ESC2Pin);
+  // Serial.begin(115200);
 
-  pinMode(VDIV_PIN, INPUT);
-  analogReference(INTERNAL);    
-  analogRead(VDIV_PIN); //throwaway read
-  delayMicroseconds(50);
+  // ppmEncoder.begin(PPM_PIN,0);
+
+
 
   pinMode(BUZZER_PIN, OUTPUT);
 
@@ -87,8 +86,7 @@ void boardSetup(){
 void boardLoop(){
   // === Handle Emergency Stop ===
   if (estop) {
-    esc1.writeMicroseconds(SPEED_STOP);
-    esc2.writeMicroseconds(SPEED_STOP);
+    // ppmEncoder.setChannel(0, 1500);
 
     #ifdef _debug
     Serial.println("Emergency Stop!");
@@ -105,7 +103,7 @@ void boardLoop(){
     return;  // Skip rest of loop
   }
 
-  float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
+  // float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
 
   packet_t payload;
   ack_payload_t ackPayload;
@@ -118,18 +116,18 @@ void boardLoop(){
 
     u16 speed = payload.throttle;
     
-    if (battVoltage < 9.6f){
-      batteryState = FLAG_BOARD_BATT_LOW;
-    }else if(battVoltage < 9.0f){
-      batteryState = FLAG_BOARD_BATT_DEAD;
-    }
+    // if (battVoltage < 9.6f){
+    //   batteryState = FLAG_BOARD_BATT_LOW;
+    // }else if(battVoltage < 9.0f){
+    //   batteryState = FLAG_BOARD_BATT_DEAD;
+    // }
     #ifdef _debug
     Serial.print("Board recieved Packet.Sequence number: ");
     Serial.println(payload.seq);
     Serial.print("timestamp:");
     Serial.println(lastMsg);
-    Serial.print("Batt Voltage: "); 
-    Serial.println(battVoltage);
+    // Serial.print("Batt Voltage: "); 
+    // Serial.println(battVoltage);
     Serial.print("Battery flags: "); 
     Serial.println(batteryState);
     Serial.print("Speed: ");
@@ -140,9 +138,9 @@ void boardLoop(){
   
     radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
     if(batteryState != FLAG_BOARD_BATT_DEAD){
-      u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
-      esc1.writeMicroseconds(speed);
-      esc2.writeMicroseconds(invertedSpeed);
+      // u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
+      
+      // ppmEncoder.setChannel(0, speed);
     }
   }else{
     //no packet available
@@ -158,8 +156,8 @@ void boardLoop(){
       estop = 1;
     }else{
       Serial.println("waiting for controller");
-      Serial.print("batt voltage: ");
-      Serial.println(battVoltage);
+      // Serial.print("batt voltage: ");
+      // Serial.println(battVoltage);
     }
   }
 }
