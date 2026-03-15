@@ -4,14 +4,13 @@
 #include "board.h"
 #include "shared.h"
 
-// #include "PPMEncoder.h"
 
 // === Pin Definitions ===
 #define ESC1Pin 5        // ESC #1 control signal pin
 #define ESC2Pin 6        // ESC #2 control signal pin
 #define BUZZER_PIN 3      // Buzzer output pin
 
-#define PPM_PIN 4
+#define PWM_PIN 3
 
 // #define VDIV_R1 10e3f // resistor from A0 to GND
 // #define VDIV_R2 110e3f // resistor from VCC RAW to A0
@@ -26,6 +25,8 @@
 // === Global Objects ===
 static RF24 radio(CE_PIN, CSN_PIN);
 
+Servo ESC;
+
 // === Global State Variables ===
 static bool estop = 0;        // Emergency stop flag
 static bool foundController = 0;
@@ -33,6 +34,8 @@ static bool radioNumber = 1;
 const bool role = false;  // true = TX role, false = RX role
 static u32 lastMsg;
 static u8 batteryState = 0x0;
+
+
 
 void boardSetup(){
 
@@ -46,8 +49,7 @@ void boardSetup(){
 
   // Serial.begin(115200);
 
-  // ppmEncoder.begin(PPM_PIN,0);
-
+  ESC.attach(PWM_PIN);
 
 
   pinMode(BUZZER_PIN, OUTPUT);
@@ -86,7 +88,7 @@ void boardSetup(){
 void boardLoop(){
   // === Handle Emergency Stop ===
   if (estop) {
-    // ppmEncoder.setChannel(0, 1500);
+    ESC.writeMicroseconds(SPEED_STOP);
 
     #ifdef _debug
     Serial.println("Emergency Stop!");
@@ -140,7 +142,7 @@ void boardLoop(){
     if(batteryState != FLAG_BOARD_BATT_DEAD){
       // u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
       
-      // ppmEncoder.setChannel(0, speed);
+      ESC.writeMicroseconds(speed);
     }
   }else{
     //no packet available
