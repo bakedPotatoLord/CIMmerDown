@@ -9,8 +9,9 @@
 
 
 #define SWITCH_PIN (A2+0U)   //16 Mode switch input pin (A2)
-#define JOYSTICK_PIN (A1+0U) //15   // Joystick analog input (A1)  
+#define JOYSTICK_PIN (A1+0U) //15   // Joystick analog input (A1)
 #define LED_PIN 7
+#define LED_2_PIN 8
 #define DEADBAND 5       // Deadband around neutral (±5 µs out of 1000 µs range)
 
 #define BATT_LOW 3.4f
