@@ -15,7 +15,23 @@ Physically constructing the boards will require some [perfboard](https://en.wiki
 
 Here is a list of the electrical components to assemble before beginning on making the boards:
 
+### Remote
 
+| Component | Symbol | Quantity | Description |
+| --- | --- | --- | --- |
+| 10k ohm resistor | R[1-5] | 3 | standard through-hole |
+| 100k ohm resistor | R[6-7] | 1 | standard through-hole  |
+| 3k3 ohm resistor | R[8] | 1 | standard through-hole |
+| status LED | D1 | 1 | standard through-hole; color of your choice! |
+| Battery | BT4 | 1 | standard 1S 18650 Li-Ion |
+| Arduino Pro Mini  | MOD[1-2] | 1 | 3.3v 8Mhz |
+| NRF24L01+ | MOD[3-4] | 1 | standard |
+| Analog Joystick | MOD7 | 1 | standard |
+
+### Board
+
+
+### total
 | Component | Symbol | Quantity | Description |
 | --- | --- | --- | --- |
 | 10k ohm resistor | R[1-5] | 5 | standard through-hole |
