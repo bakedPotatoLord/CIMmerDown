@@ -48,6 +48,7 @@ void controllerSetup(){
   if (!radio.begin()) {
     #ifdef _debug 
     Serial.println(F("radio hardware is not responding!!"));
+    while(1){};
     #endif
     status = Status::hardwareFault;
     return;
