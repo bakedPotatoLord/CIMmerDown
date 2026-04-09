@@ -19,7 +19,7 @@
 
 #define VDIV_PIN 14 // Voltage divider pin A0
 
-#define VDIV_R1 33e3f // resistor from A0 to GND 
+#define VDIV_R1 35e3f // resistor from A0 to GND 
 #define VDIV_R2 100e3f // resistor from VCC RAW to A0 
 #define VDIV_REF 3.3f // reference voltage 
 //convert raw ADC value to input voltage
