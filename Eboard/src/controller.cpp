@@ -10,7 +10,8 @@
 
 #define SWITCH_PIN (A2+0U)   //16 Mode switch input pin (A2)
 #define JOYSTICK_PIN (A1+0U) //15   // Joystick analog input (A1)  
-#define LED_PIN 7
+#define LED_PIN_BLUE 7
+#define LED_PIN_RED 8
 #define DEADBAND 5       // Deadband around neutral (±5 µs out of 1000 µs range)
 
 #define BATT_LOW 3.4f
@@ -42,7 +43,7 @@ void controllerSetup(){
   pinMode(SWITCH_PIN, INPUT_PULLUP);  // Switch is active LOW
   pinMode(JOYSTICK_PIN, INPUT);
   pinMode(VDIV_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
+  pinMode(LED_PIN_BLUE, OUTPUT);
 
   if (!radio.begin()) {
     #ifdef _debug 
@@ -127,16 +128,13 @@ void controllerLoop(){
 
   // If switch is currently held down...
   if (switchVal) {
-    // Held for >5 seconds → toggle mode
-    if (millis() - timestamp > 2000) {
-      mode = (mode == FAST) ? SLOW : FAST;
+    // Held for >1.5 seconds → toggle mode
+    if (millis() - timestamp > 1500) {
+      mode = (Speedmode) !mode;
       timestamp = millis();
 
       //trigger mode switch
       payload.flags = (mode == FAST) ? FLAG_FAST : FLAG_SLOW;
-      if(status == Status::ok_fast || status == Status::ok_slow){
-        status = (mode == FAST) ? Status::ok_fast : Status::ok_slow;
-      }
     }
   }
 
@@ -180,7 +178,7 @@ void controllerLoop(){
         Serial.println(received.flags);
         Serial.println();
         #endif
-
+        status = Status::ok;
         lastmsgRecv = millis();
         if(received.flags & FLAG_BOARD_BATT_LOW){
           status = Status::board_batt_low;
@@ -199,7 +197,7 @@ void controllerLoop(){
     #endif
     if(lastmsgRecv != 0 &&
        millis() - lastmsgRecv > 2000 &&
-       ( status == Status::ok_fast || status == Status::ok_slow)){
+       ( status == ok)){
       //if no ack received in 2 seconds, go back to await connect
       status = Status::await_connect;
       
@@ -212,41 +210,51 @@ void controllerLoop(){
 void SetLED(){
   u32 ms = millis();
   if(status == Status::hardwareFault){
-    //one blink every 3 seconds
+    //one red blink every 3 seconds
     ms %= 3000;
-    digitalWrite(LED_PIN, ms < 500);
-
+    digitalWrite(LED_PIN_BLUE, 0);
+    digitalWrite(LED_PIN_RED, ms < 500);
   }else if(status == Status::await_connect){
-    //2groups of 2 fast blinks
-    ms %=1500;
-    digitalWrite(LED_PIN, ms < 500 && ms%250<125);
-  }else if(status == Status::ok_slow){
-    //slow blink
-    ms %= 1500;
-    digitalWrite(LED_PIN, ms < 750);
-  }else if(status == Status::ok_fast){
-    //fast blink
-    ms %= 750;
-    digitalWrite(LED_PIN, ms < 375);
+    // fast blue blinks
+    
+    ms %= 1000;
+    digitalWrite(LED_PIN_BLUE, ms < 500 && ms%250<125);
+    digitalWrite(LED_PIN_RED, 0);
+  }else if(status == Status::ok){
+    if(mode ==SLOW){
+      //slow blink
+      ms %= 750;
+      digitalWrite(LED_PIN_BLUE, ms < 375);
+      digitalWrite(LED_PIN_RED, 0);
+    }else if(mode == FAST){
+      //fast blink
+      ms %= 375;
+      digitalWrite(LED_PIN_BLUE, ms < (375/2));
+      digitalWrite(LED_PIN_RED, 0);
+    }
   }else if(status == Status::e_stop){
-    //solid light
-    digitalWrite(LED_PIN, 1);
+    //solid red and blue
+    digitalWrite(LED_PIN_BLUE, 1);
+    digitalWrite(LED_PIN_RED, 1);
   }else if(status == Status::board_batt_low){
-    //2 fast blinks at start
-    ms %= 3000;
-    digitalWrite(LED_PIN, ms < 500 && ms%250<125);
+    // fast blink both colors
+    
+    digitalWrite(LED_PIN_BLUE, ms%250<125);
+    digitalWrite(LED_PIN_RED,  ms%250<125);
   }else if(status == Status::board_batt_dead){
-    //3 fast blinks at start
-    ms %= 3000;
-    digitalWrite(LED_PIN, ms < 750 && ms%250<125);
+    //slow blink both colors
+    digitalWrite(LED_PIN_BLUE, ms%500<250);
+    digitalWrite(LED_PIN_RED,  ms%500<250);
   }else if(status == Status::ctrl_batt_low){
-    //2 slower blinks at start
-    ms %= 3000;
-    digitalWrite(LED_PIN, ms < 1000 && ms%500<250);
+    //altrenating both blinking
+    digitalWrite(LED_PIN_BLUE, ms%500<250);
+    digitalWrite(LED_PIN_RED,  ms%500>=250);
   } else if(status == Status::ctrl_batt_dead){
     //nothing
-    digitalWrite(LED_PIN, 0);
+    digitalWrite(LED_PIN_BLUE, 0);
+    digitalWrite(LED_PIN_RED, 0);
   }else{
-    digitalWrite(LED_PIN, LOW);
+    digitalWrite(LED_PIN_BLUE, 0);
+    digitalWrite(LED_PIN_RED, 0);
   }
 }
