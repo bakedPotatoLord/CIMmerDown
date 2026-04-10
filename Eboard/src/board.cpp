@@ -8,13 +8,17 @@
 // === Pin Definitions ===
 #define ESC1Pin 5        // ESC #1 control signal pin
 #define ESC2Pin 6        // ESC #2 control signal pin
-#define BUZZER_PIN 3      // Buzzer output pin
+#define VDIV_PIN 14 // Voltage divider pin A0
 
 #define PWM_PIN 3
 
-// #define VDIV_R1 10e3f // resistor from A0 to GND
-// #define VDIV_R2 110e3f // resistor from VCC RAW to A0
-// #define VDIV_REF 1.1f // reference voltage 
+#define SOFT_MULTIPLIER 0.918939
+
+//calibration: real: 12.13, measured, 13.2
+// multiplier: 12.13 / 13.2 = 0.919
+
+//convert raw ADC value to input voltage
+#define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1 * SOFT_MULTIPLIER
 
 // //convert raw ADC value to input voltage
 // #define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1
@@ -52,8 +56,6 @@ void boardSetup(){
   ESC.attach(PWM_PIN);
 
 
-  pinMode(BUZZER_PIN, OUTPUT);
-
   while (!Serial) {
     // some boards need to wait to ensure access to serial over USB
   } 
@@ -76,13 +78,7 @@ void boardSetup(){
     radio.startListening();  // put radio in RX mode
   }
 
-  pinMode(BUZZER_PIN, OUTPUT);
-  // Startup tones for power-on confirmation
-  #ifndef mute
-  tone(BUZZER_PIN, 512, 100);
-  delay(100);
-  tone(BUZZER_PIN, 1024, 100);
-  #endif
+
 }
 
 void boardLoop(){
@@ -93,15 +89,7 @@ void boardLoop(){
     #ifdef _debug
     Serial.println("Emergency Stop!");
     #endif
-    // Audible alarm: 3 short alternating beeps
-    #ifndef mute
-    for (int i = 0; i < 3; i++) {
-      tone(BUZZER_PIN, 1024, 200);
-      delay(100);
-      tone(BUZZER_PIN, 512, 200);
-      delay(100);
-    }
-    #endif
+
     return;  // Skip rest of loop
   }
 

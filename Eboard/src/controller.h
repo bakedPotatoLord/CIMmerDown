@@ -5,8 +5,7 @@
 enum Status {
   hardwareFault,
   await_connect,
-  ok_slow,
-  ok_fast,
+  ok,
   e_stop, //solid light
   board_batt_low,
   board_batt_dead,
