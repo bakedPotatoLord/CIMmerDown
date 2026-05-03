@@ -4,13 +4,14 @@
 #include "board.h"
 #include "shared.h"
 
-
 // === Pin Definitions ===
 #define ESC1Pin 5        // ESC #1 control signal pin
 #define ESC2Pin 6        // ESC #2 control signal pin
 #define VDIV_PIN 14 // Voltage divider pin A0
 
-#define PWM_PIN 3
+#define VDIV_R1 10e3f // resistor from A0 to GND
+#define VDIV_R2 110e3f // resistor from VCC RAW to A0
+#define VDIV_REF 1.1f // reference voltage 
 
 #define SOFT_MULTIPLIER 0.918939
 
@@ -20,16 +21,12 @@
 //convert raw ADC value to input voltage
 #define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1 * SOFT_MULTIPLIER
 
-// //convert raw ADC value to input voltage
-// #define CONVERT_VDIV(raw) (raw * (VDIV_REF / 1023.0f) ) * (VDIV_R1 + VDIV_R2) / VDIV_R1
-
-#define CE_PIN 14
+#define CE_PIN 9
 #define CSN_PIN 10
 
 // === Global Objects ===
+Servo esc1, esc2;
 static RF24 radio(CE_PIN, CSN_PIN);
-
-Servo ESC;
 
 // === Global State Variables ===
 static bool estop = 0;        // Emergency stop flag
@@ -38,8 +35,6 @@ static bool radioNumber = 1;
 const bool role = false;  // true = TX role, false = RX role
 static u32 lastMsg;
 static u8 batteryState = 0x0;
-
-
 
 void boardSetup(){
 
@@ -51,10 +46,14 @@ void boardSetup(){
     while (1) {}  // hold in infinite loop
   }
 
-  // Serial.begin(115200);
+  Serial.begin(115200);
+  esc1.attach(ESC1Pin);
+  esc2.attach(ESC2Pin);
 
-  ESC.attach(PWM_PIN);
-
+  pinMode(VDIV_PIN, INPUT);
+  analogReference(INTERNAL);    
+  analogRead(VDIV_PIN); //throwaway read
+  delayMicroseconds(50);
 
   while (!Serial) {
     // some boards need to wait to ensure access to serial over USB
@@ -84,7 +83,8 @@ void boardSetup(){
 void boardLoop(){
   // === Handle Emergency Stop ===
   if (estop) {
-    ESC.writeMicroseconds(SPEED_STOP);
+    esc1.writeMicroseconds(SPEED_STOP);
+    esc2.writeMicroseconds(SPEED_STOP);
 
     #ifdef _debug
     Serial.println("Emergency Stop!");
@@ -93,7 +93,7 @@ void boardLoop(){
     return;  // Skip rest of loop
   }
 
-  // float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
+  float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
 
   packet_t payload;
   ack_payload_t ackPayload;
@@ -106,18 +106,18 @@ void boardLoop(){
 
     u16 speed = payload.throttle;
     
-    // if (battVoltage < 9.6f){
-    //   batteryState = FLAG_BOARD_BATT_LOW;
-    // }else if(battVoltage < 9.0f){
-    //   batteryState = FLAG_BOARD_BATT_DEAD;
-    // }
+    if (battVoltage < 9.6f){
+      batteryState = FLAG_BOARD_BATT_LOW;
+    }else if(battVoltage < 9.0f){
+      batteryState = FLAG_BOARD_BATT_DEAD;
+    }
     #ifdef _debug
     Serial.print("Board recieved Packet.Sequence number: ");
     Serial.println(payload.seq);
     Serial.print("timestamp:");
     Serial.println(lastMsg);
-    // Serial.print("Batt Voltage: "); 
-    // Serial.println(battVoltage);
+    Serial.print("Batt Voltage: "); 
+    Serial.println(battVoltage);
     Serial.print("Battery flags: "); 
     Serial.println(batteryState);
     Serial.print("Speed: ");
@@ -128,9 +128,9 @@ void boardLoop(){
   
     radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
     if(batteryState != FLAG_BOARD_BATT_DEAD){
-      // u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
-      
-      ESC.writeMicroseconds(speed);
+      u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
+      esc1.writeMicroseconds(speed);
+      esc2.writeMicroseconds(invertedSpeed);
     }
   }else{
     //no packet available
@@ -146,8 +146,8 @@ void boardLoop(){
       estop = 1;
     }else{
       Serial.println("waiting for controller");
-      // Serial.print("batt voltage: ");
-      // Serial.println(battVoltage);
+      Serial.print("batt voltage: ");
+      Serial.println(battVoltage);
     }
   }
 }

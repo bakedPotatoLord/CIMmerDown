@@ -1,0 +1,131 @@
+#include <Servo.h>
+#include "RF24.h"
+#include <Arduino.h>
+#include "board.h"
+#include "shared.h"
+
+
+// === Pin Definitions ===
+#define ESC1Pin 5        // ESC #1 control signal pin
+#define ESC2Pin 6        // ESC #2 control signal pin
+#define VDIV_PIN 14 // Voltage divider pin A0
+#define PWM_PIN 3
+
+
+#define CE_PIN 14
+#define CSN_PIN 10
+
+// === Global Objects ===
+static RF24 radio(CE_PIN, CSN_PIN);
+
+Servo ESC;
+
+// === Global State Variables ===
+static bool estop = 0;        // Emergency stop flag
+static bool foundController = 0;
+static bool radioNumber = 1;
+const bool role = false;  // true = TX role, false = RX role
+static u32 lastMsg;
+static u8 batteryState = 0x0;
+
+
+void boardSetup(){
+
+  // initialize the transceiver on the SPI bus
+  if (!radio.begin()) {
+    #ifdef _debug
+    Serial.println("radio hardware is not responding!!");
+    #endif
+    while (1) {}  // hold in infinite loop
+  }
+
+
+  ESC.attach(PWM_PIN);
+
+  while (!Serial) {
+    // some boards need to wait to ensure access to serial over USB
+  } 
+ 
+  radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
+  radio.enableDynamicAck();  // ACK payloads are dynamically sized
+  radio.setPayloadSize(sizeof(ack_payload_t));
+  radio.enableAckPayload();
+  radio.setRetries(5, 15);
+ 
+  // set the TX address of the RX node for use on the TX pipe (pipe 0)
+  radio.stopListening(addresses[radioNumber]);  // put radio in TX mode
+ 
+  // set the RX address of the TX node into a RX pipe
+  radio.openReadingPipe(1, addresses[!radioNumber]);  // using pipe 1
+ 
+  // additional setup specific to the node's RX role
+  if (!role) {
+    radio.startListening();  // put radio in RX mode
+  }
+}
+
+void boardLoop(){
+  // === Handle Emergency Stop ===
+  if (estop) {
+    ESC.writeMicroseconds(SPEED_STOP);
+
+    #ifdef _debug
+    Serial.println("Emergency Stop!");
+    #endif
+
+    return;  // Skip rest of loop
+  }
+
+  packet_t payload;
+  ack_payload_t ackPayload;
+  uint8_t pipe;
+  if (radio.available(&pipe)) { // is there a payload? get the pipe number that received it
+    foundController = 1;
+    uint8_t bytes = radio.getDynamicPayloadSize();  // get the size of the payload
+    radio.read(&payload, bytes); // fetch payload from FIFO
+    lastMsg = millis();
+
+    u16 speed = payload.throttle;
+    
+    // if (battVoltage < 9.6f){
+    //   batteryState = FLAG_BOARD_BATT_LOW;
+    // }else if(battVoltage < 9.0f){
+    //   batteryState = FLAG_BOARD_BATT_DEAD;
+    // }
+    #ifdef _debug
+    Serial.print("Board recieved Packet.Sequence number: ");
+    Serial.println(payload.seq);
+    Serial.print("timestamp:");
+    Serial.println(lastMsg);
+
+    Serial.print("self battery state: "); 
+    Serial.println(batteryState);
+    Serial.print("Speed: ");
+    Serial.println(speed);
+    Serial.println();
+    #endif
+
+    ackPayload.flags = batteryState;
+    radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
+    if(batteryState != FLAG_BOARD_BATT_DEAD){
+      // u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
+      
+      ESC.writeMicroseconds(speed);
+    }
+  }else{
+    //no packet available
+
+    u32 m = millis();
+    if(foundController && (m - lastMsg > 3000)){
+      //if had controller, and no message for 1 second
+      #ifdef _debug
+      Serial.println("Controller lost");
+      Serial.println(m);
+      Serial.println(lastMsg);
+      #endif
+      estop = 1;
+    }else{
+      Serial.println("waiting for controller");
+    }
+  }
+}
