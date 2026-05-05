@@ -11,6 +11,11 @@
 #define SPEED_SLOW_REV 1200  
 #define SPEED_STOP 1500   // Neutral pulse width (ESC stop position)
 
+#ifndef CYCLE_FREQ //default to 1Hz
+#define CYCLE_FREQ 1UL //clock frequency in Hz
+#endif
+#define CYCLE_WAVELEN ( 1000UL / CYCLE_FREQ) //wavelength in ms
+
 #define ADDR_LEN 5
 
 #define FLAG_FAST (1 << 0)
@@ -35,7 +40,7 @@ struct ack_payload_t{
   u8 flags; //board flags
 };
 
-// const u8 addresses[2][ADDR_LEN+1] = { "TRSMT", "RCVER" };
-const u8 addresses[2][ADDR_LEN+1] = { "2RSMT", "2CVER" };
+const u8 addresses[2][ADDR_LEN+1] = { "TRSMT", "RCVER" };
+// const u8 addresses[2][ADDR_LEN+1] = { "2RSMT", "2CVER" };
 
 #endif
