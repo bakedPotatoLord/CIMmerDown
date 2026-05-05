@@ -18,9 +18,6 @@
 
 #define FLAG_NONE 0
 
-
-
-
 enum Speedmode {
   FAST,
   SLOW,
@@ -32,19 +29,13 @@ struct packet_t {
   u8 flags; //0x01 = switch to fast mode. 0x02 = switch to slow mode
 };  
 
-
 #define FLAG_BOARD_BATT_LOW (u8)(1 <<0)
 #define FLAG_BOARD_BATT_DEAD (u8)(1 << 1)
 struct ack_payload_t{
   u8 flags; //board flags
 };
 
-
-const u8 addresses[2][ADDR_LEN+1] = { "TRSMT", "RCVER" };
-
-
-
-
-
+// const u8 addresses[2][ADDR_LEN+1] = { "TRSMT", "RCVER" };
+const u8 addresses[2][ADDR_LEN+1] = { "2RSMT", "2CVER" };
 
 #endif
