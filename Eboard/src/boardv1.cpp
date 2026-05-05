@@ -15,6 +15,11 @@
 
 #define SOFT_MULTIPLIER 0.918939
 
+
+#define RAMP_SECS 2
+#define RAMP_RATE_SLOW  (SPEED_SLOW_FWD - SPEED_STOP) * RAMP_SECS / CYCLE_FREQ
+#define RAMP_RATE_FAST  (SPEED_FAST_FWD - SPEED_STOP) * RAMP_SECS / CYCLE_FREQ
+
 //calibration: real: 12.13, measured, 13.2
 // multiplier: 12.13 / 13.2 = 0.919
 
@@ -35,6 +40,7 @@ static bool radioNumber = 1;
 const bool role = false;  // true = TX role, false = RX role
 static u32 lastMsg;
 static u8 batteryState = 0x0;
+static u16 lastSpeed = SPEED_STOP;
 
 void boardSetup(){
 
@@ -96,7 +102,8 @@ void boardLoop(){
   float battVoltage = CONVERT_VDIV(analogRead(VDIV_PIN));
 
   packet_t payload;
-  ack_payload_t ackPayload;
+  ack_payload_t ackPayload = {};
+
   uint8_t pipe;
   if (radio.available(&pipe)) { // is there a payload? get the pipe number that received it
     foundController = 1;
@@ -106,10 +113,13 @@ void boardLoop(){
 
     u16 speed = payload.throttle;
     
-    if (battVoltage < 9.6f){
-      batteryState = FLAG_BOARD_BATT_LOW;
-    }else if(battVoltage < 9.0f){
+    if(battVoltage < 9.0f){
       batteryState = FLAG_BOARD_BATT_DEAD;
+    }
+    else if (battVoltage < 9.6f){
+      batteryState = FLAG_BOARD_BATT_LOW;
+    }else{
+      batteryState = 0x0;
     }
     #ifdef _debug
     Serial.print("Board recieved Packet.Sequence number: ");
@@ -125,9 +135,17 @@ void boardLoop(){
     Serial.println();
     #endif
 
-  
+    ackPayload.flags = batteryState;
     radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
     if(batteryState != FLAG_BOARD_BATT_DEAD){
+
+      u16 rampRate = RAMP_RATE_SLOW;
+      if(speed > lastSpeed && speed > SPEED_STOP){ //if accelerating forward
+        speed = (speed - lastSpeed > rampRate)? lastSpeed + rampRate : speed;
+      }else if(speed <= lastSpeed && speed < SPEED_STOP){
+        speed = (lastSpeed - speed >  rampRate)? lastSpeed - rampRate : speed;
+      }
+      lastSpeed = speed;
       u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
       esc1.writeMicroseconds(speed);
       esc2.writeMicroseconds(invertedSpeed);
@@ -137,7 +155,7 @@ void boardLoop(){
 
     u32 m = millis();
     if(foundController && (m - lastMsg > 3000)){
-      //if had controller, and no message for 1 second
+      //if had controller, and no message for 3 seconds
       #ifdef _debug
       Serial.println("Controller lost");
       Serial.println(m);
@@ -145,9 +163,11 @@ void boardLoop(){
       #endif
       estop = 1;
     }else{
+      #ifdef _debug
       Serial.println("waiting for controller");
       Serial.print("batt voltage: ");
       Serial.println(battVoltage);
+      #endif
     }
   }
 }
