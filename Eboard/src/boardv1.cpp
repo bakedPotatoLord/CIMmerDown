@@ -16,9 +16,9 @@
 #define SOFT_MULTIPLIER 0.918939
 
 
-#define RAMP_SECS 2
-#define RAMP_RATE_SLOW  (SPEED_SLOW_FWD - SPEED_STOP) * RAMP_SECS / CYCLE_FREQ
-#define RAMP_RATE_FAST  (SPEED_FAST_FWD - SPEED_STOP) * RAMP_SECS / CYCLE_FREQ
+// #define RAMP_SECS 2
+// #define RAMP_RATE_SLOW  (SPEED_SLOW_FWD - SPEED_STOP) * RAMP_SECS / CYCLE_FREQ
+// #define RAMP_RATE_FAST  (SPEED_FAST_FWD - SPEED_STOP) * RAMP_SECS / CYCLE_FREQ
 
 //calibration: real: 12.13, measured, 13.2
 // multiplier: 12.13 / 13.2 = 0.919
@@ -139,16 +139,16 @@ void boardLoop(){
     radio.writeAckPayload(1, &ackPayload, sizeof(ackPayload));
     if(batteryState != FLAG_BOARD_BATT_DEAD){
 
-      u16 rampRate = RAMP_RATE_SLOW;
-      if(speed > lastSpeed && speed > SPEED_STOP){ //if accelerating forward
-        speed = (speed - lastSpeed > rampRate)? lastSpeed + rampRate : speed;
-      }else if(speed <= lastSpeed && speed < SPEED_STOP){
-        speed = (lastSpeed - speed >  rampRate)? lastSpeed - rampRate : speed;
-      }
-      lastSpeed = speed;
+      // u16 rampRate = RAMP_RATE_SLOW;
+      // if(speed > lastSpeed && speed > SPEED_STOP){ //if accelerating forward
+      //   speed = (speed - lastSpeed > rampRate)? lastSpeed + rampRate : speed;
+      // }else if(speed <= lastSpeed && speed < SPEED_STOP){
+      //   speed = (lastSpeed - speed >  rampRate)? lastSpeed - rampRate : speed;
+      // }
+      // lastSpeed = speed;
       u16 invertedSpeed = map(speed, 1000,2000,2000,1000);
       esc1.writeMicroseconds(speed);
-      esc2.writeMicroseconds(invertedSpeed);
+      esc2.writeMicroseconds(speed);
     }
   }else{
     //no packet available
