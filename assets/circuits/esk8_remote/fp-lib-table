@@ -1,0 +1,5 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "ArduinoProMini") (type "KiCad") (uri "${KIPRJMOD}/ArduinoProMini.pretty") (options "") (descr ""))
+	(lib (name "NRF24L01") (type "KiCad") (uri "${KIPRJMOD}/NRF24L01.pretty") (options "") (descr ""))
+)

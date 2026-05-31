@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "Esk8_spring_26-eagle-import") (type "KiCad") (uri "${KIPRJMOD}/Esk8_spring_26-eagle-import.kicad_sym") (options "") (descr ""))
+)
