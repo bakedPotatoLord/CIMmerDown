@@ -80,7 +80,7 @@ If you don't want to do this step, reach out to me, and I can get you a quote to
 ![CIM mount op 2](/assets/drawings/machining/CIMmount-op2.png)
 
 
-The DXFs for the sheet-cut parts can be found here \[add link\]
+The DXFs for the sheet-cut parts can be found [here](https://github.com/bakedPotatoLord/CIMmerDown/tree/main/assets/drawings/wjet).
 
 My general order of operations was to waterjet out the profiles of the sheet parts, and then drill them out on the manual mill.
 the triangle holes need to be cut on a rotary table, or with a CNC mill. These parts are likely small enough for a Desktop Mill if that's all you have access to. 
@@ -90,8 +90,27 @@ The spacers could probably be 3D printed if you don't have a lathe. Just make su
 
 ### Urethane casting
 
+To urethane cast, I used [this resin](https://www.amazon.com/Simple-Resin-Enduro-Flex-Polyurethane/dp/B0B4P9C7T7). This step will require having at least one mold printed, though having 2 will make this process much faster. Here are the steps
 
+- Cover a surface with cardboard or some other protectant
+- Fill bottom holes of mold(s) with hot glue, and do not 
+- Apply petroleum jelly to entire mold. don't skimp out, or you'll make things much harder for yourself down the line. Make sure all surfaces of the mold get some petroleum jelly on them.
+- Calculate how much mass of each part of the urethane you need. the volume of the wheel is 10.486353 in^3, the density is 0.67 oz/in^3, which means that the total mass should be 7.0216 oz, or about 3.511 oz of each part. if you are doing 2 wheels, this can be doubled.
+- Pour part a liquid into a tared disposable cup on a scale, get as close to the target volume as possible. pour part b into a tared disposable cup, and get to the same ammount as of part a. if you went over on part a, also go over on part b. 
+- Get a stopwatch ready
+- As you press start on the stopwatch, pour both parts into a new disposable cup.
+- using a popsicle stick, stir the mixture well for 5 minutes, keeping the stick touching the outside of the cup, to minimize bubble creation. the 
+- pour the urethane into the molds as quickly as possible wire remaining control of the flow. the mixtuure will be hardening as you pour. use the multiple pout holes if the urethane is not flowing quickly enough. the urethane will become basically unusable after 6-7 minutes.
+- let the urethane sit for about 24 hours.
+- Pry it out of the mold with a screwdriver, and press it out with the bottom holes until it come loose. This may take a while if you didn't apply the petroleum jelly very liberally
 
+### Woodworking on the Board
+
+I cut the slots into the skate deck using a jigsaw, though a manual saw would work as well. It's recomended to seal the board with wood sealant to keep the boards from delaminating. drilling the holes isn't terribly hard. I sketched out the general placement with a pencil, and then marked the center of the holes with a marker using the 3D printed boxes as a template.
+
+### Media
+
+You can view images for this whole process [here](https://photos.app.goo.gl/PT1SKgsLKWnoJaoL6)
 
 
 
