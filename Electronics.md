@@ -52,14 +52,10 @@ Some other consumables include solid core wire, solder, and flux if you prefer.
 
 The perfboard will need to be cut or snapped down to size. The remote requires 23x7 smd holes. The board controller requires __ x __ smd holes.
 
-the following is one way to wire up the boards. it is not difinitively, the only way. if you think you know how to do it better, submit a PR or message me.
+The following link has an image-based guide showing one way to wire up the boards. it is not difinitively, the only way. if you think you know how to do it better, submit a PR or message me.
 
-- [] controller
-  - [] solder short side of pins to arduino Board
-  - [] solder long side Pins to perfboard. Make sure they are in the right spot, according to the image
-  - [] 
+[Guide](https://photos.app.goo.gl/4bUh6QA9aAVv1GDRA)
 
-⚠️DOCS INCOMPLETE⚠️
 
 ## PCB
 
