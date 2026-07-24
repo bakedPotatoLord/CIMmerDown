@@ -3990,6 +3990,105 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:+3.3V"
 			(power global)
 			(pin_numbers
@@ -4769,16 +4868,6 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 55.88) (xy 46.99 55.88)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "0ea23c38-bf59-4c47-8b53-a0ec956d3aab")
-	)
-	(wire
-		(pts
 			(xy 233.68 109.22) (xy 256.54 109.22)
 		)
 		(stroke
@@ -5459,6 +5548,16 @@
 	)
 	(wire
 		(pts
+			(xy 46.99 55.88) (xy 46.99 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c68629b-9480-4900-a665-ab9dd53b08f7")
+	)
+	(wire
+		(pts
 			(xy 266.7 109.22) (xy 276.86 109.22)
 		)
 		(stroke
@@ -5496,6 +5595,16 @@
 			(type solid)
 		)
 		(uuid "82aca985-74f9-4388-9e30-baca0d08db09")
+	)
+	(wire
+		(pts
+			(xy 46.99 58.42) (xy 48.26 58.42)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "87da4149-c2dc-4642-aca8-0aa8561c8a35")
 	)
 	(wire
 		(pts
@@ -5586,16 +5695,6 @@
 			(type solid)
 		)
 		(uuid "972d8dd6-6a0b-4135-9e96-2e7907deed6d")
-	)
-	(wire
-		(pts
-			(xy 46.99 55.88) (xy 46.99 53.34)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "97322cc4-2aaf-46b3-b9c9-37e3c14fc56e")
 	)
 	(wire
 		(pts
@@ -6039,16 +6138,6 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 58.42) (xy 48.26 55.88)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "d6c30909-5a76-4645-9a7b-d9e46df796d0")
-	)
-	(wire
-		(pts
 			(xy 50.8 114.3) (xy 50.8 146.05)
 		)
 		(stroke
@@ -6475,7 +6564,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT92")
 					(unit 1)
 				)
@@ -6590,7 +6679,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT84")
 					(unit 1)
 				)
@@ -6705,7 +6794,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT89")
 					(unit 1)
 				)
@@ -6885,7 +6974,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "U2")
 					(unit 1)
 				)
@@ -7000,7 +7089,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT62")
 					(unit 1)
 				)
@@ -7102,7 +7191,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#U$4")
 					(unit 1)
 				)
@@ -7217,7 +7306,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT80")
 					(unit 1)
 				)
@@ -7296,7 +7385,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#PWR09")
 					(unit 1)
 				)
@@ -7411,7 +7500,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT96")
 					(unit 1)
 				)
@@ -7526,7 +7615,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT51")
 					(unit 1)
 				)
@@ -7641,7 +7730,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT95")
 					(unit 1)
 				)
@@ -7756,7 +7845,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT94")
 					(unit 1)
 				)
@@ -7871,7 +7960,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT67")
 					(unit 1)
 				)
@@ -7986,7 +8075,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT66")
 					(unit 1)
 				)
@@ -8101,7 +8190,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT88")
 					(unit 1)
 				)
@@ -8216,7 +8305,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT87")
 					(unit 1)
 				)
@@ -8293,7 +8382,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#PWR011")
 					(unit 1)
 				)
@@ -8370,7 +8459,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#PWR08")
 					(unit 1)
 				)
@@ -8485,7 +8574,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT82")
 					(unit 1)
 				)
@@ -8600,7 +8689,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT74")
 					(unit 1)
 				)
@@ -8715,7 +8804,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT59")
 					(unit 1)
 				)
@@ -8830,7 +8919,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT93")
 					(unit 1)
 				)
@@ -9047,7 +9136,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#U$7")
 					(unit 1)
 				)
@@ -9162,7 +9251,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT83")
 					(unit 1)
 				)
@@ -9277,7 +9366,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT86")
 					(unit 1)
 				)
@@ -9392,7 +9481,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT68")
 					(unit 1)
 				)
@@ -9507,7 +9596,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT90")
 					(unit 1)
 				)
@@ -9622,7 +9711,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT77")
 					(unit 1)
 				)
@@ -9737,7 +9826,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT75")
 					(unit 1)
 				)
@@ -9765,9 +9854,8 @@
 				)
 			)
 		)
-		(property "Value" "C_US"
+		(property "Value" "140uf"
 			(at 85.852 122.428 90)
-			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9817,7 +9905,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "C2")
 					(unit 1)
 				)
@@ -9932,7 +10020,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT56")
 					(unit 1)
 				)
@@ -10047,7 +10135,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT69")
 					(unit 1)
 				)
@@ -10162,7 +10250,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT70")
 					(unit 1)
 				)
@@ -10261,7 +10349,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "U3")
 					(unit 1)
 				)
@@ -10376,7 +10464,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT49")
 					(unit 1)
 				)
@@ -10491,7 +10579,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT54")
 					(unit 1)
 				)
@@ -10606,7 +10694,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT60")
 					(unit 1)
 				)
@@ -10709,7 +10797,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#U$1")
 					(unit 1)
 				)
@@ -10824,7 +10912,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT61")
 					(unit 1)
 				)
@@ -10939,7 +11027,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT63")
 					(unit 1)
 				)
@@ -11098,7 +11186,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "B2")
 					(unit 1)
 				)
@@ -11213,7 +11301,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT55")
 					(unit 1)
 				)
@@ -11328,7 +11416,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT50")
 					(unit 1)
 				)
@@ -11443,7 +11531,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT52")
 					(unit 1)
 				)
@@ -11558,7 +11646,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT57")
 					(unit 1)
 				)
@@ -11648,7 +11736,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#U$6")
 					(unit 1)
 				)
@@ -11763,7 +11851,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT78")
 					(unit 1)
 				)
@@ -11842,7 +11930,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "F2")
 					(unit 1)
 				)
@@ -11957,7 +12045,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT91")
 					(unit 1)
 				)
@@ -12072,7 +12160,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT85")
 					(unit 1)
 				)
@@ -12187,7 +12275,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT73")
 					(unit 1)
 				)
@@ -12302,7 +12390,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT58")
 					(unit 1)
 				)
@@ -12417,7 +12505,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT79")
 					(unit 1)
 				)
@@ -12496,7 +12584,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#PWR010")
 					(unit 1)
 				)
@@ -12611,7 +12699,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT76")
 					(unit 1)
 				)
@@ -12726,8 +12814,84 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT53")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 133.35 144.78 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d665608f-051d-455b-b7df-8c15cb97e678")
+		(property "Reference" "H2"
+			(at 135.89 143.5099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 135.89 146.0499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_4.3mm_M4"
+			(at 133.35 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 133.35 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 133.35 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "recieverBoard"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
+					(reference "H2")
 					(unit 1)
 				)
 			)
@@ -12803,7 +12967,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#PWR014")
 					(unit 1)
 				)
@@ -12918,7 +13082,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT72")
 					(unit 1)
 				)
@@ -13033,8 +13197,160 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT71")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 133.35 138.43 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e696c7ce-f552-49d0-a1b4-c921a236e785")
+		(property "Reference" "H1"
+			(at 135.89 137.1599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 135.89 139.6999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_4.3mm_M4"
+			(at 133.35 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 133.35 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 133.35 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "recieverBoard"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
+					(reference "H1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 151.13 138.43 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ecbeaba5-b844-4fe3-9a05-ab5a3c85168d")
+		(property "Reference" "H3"
+			(at 153.67 137.1599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 153.67 139.6999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_4.3mm_M4"
+			(at 151.13 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 151.13 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 151.13 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "recieverBoard"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
+					(reference "H3")
 					(unit 1)
 				)
 			)
@@ -13116,7 +13432,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "J2")
 					(unit 1)
 				)
@@ -13231,7 +13547,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT65")
 					(unit 1)
 				)
@@ -13346,7 +13662,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT64")
 					(unit 1)
 				)
@@ -13423,7 +13739,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#PWR016")
 					(unit 1)
 				)
@@ -13500,7 +13816,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "#PWR015")
 					(unit 1)
 				)
@@ -13615,7 +13931,7 @@
 		)
 		(instances
 			(project "recieverBoard"
-				(path "/98927903-ec94-4132-bbef-7a96b878a52e"
+				(path "/b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
 					(reference "BT81")
 					(unit 1)
 				)
@@ -13627,4 +13943,5 @@
 			(page "2")
 		)
 	)
+	(embedded_fonts no)
 )

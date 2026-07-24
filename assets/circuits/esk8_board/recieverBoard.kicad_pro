@@ -661,33 +661,15 @@
         "filename": "RecieverBoard.kicad_sch",
         "name": "RecieverBoard",
         "uuid": "b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b"
-      },
-      {
-        "filename": "RecieverBoard.kicad_sch",
-        "name": "RecieverBoard",
-        "uuid": "98927903-ec94-4132-bbef-7a96b878a52e"
-      },
-      {
-        "filename": "RecieverBoard.kicad_sch",
-        "name": "RecieverBoard",
-        "uuid": "a695eab0-f867-4dbe-b26c-daacfa992859"
       }
     ],
-    "used_designators": "B1,J1,BT1-48,#U$2-3,#U$5,#U$8,#PWR1-7,C1,F1,U1,U4",
+    "used_designators": "H1-4",
     "variants": []
   },
   "sheets": [
     [
-      "98927903-ec94-4132-bbef-7a96b878a52e",
-      "remote"
-    ],
-    [
       "b4d9251f-ac71-4f2b-83a4-3b13c5ae9c1b",
-      "board_v2"
-    ],
-    [
-      "a695eab0-f867-4dbe-b26c-daacfa992859",
-      "board_v1"
+      "RecieverBoard"
     ]
   ],
   "text_variables": {},
