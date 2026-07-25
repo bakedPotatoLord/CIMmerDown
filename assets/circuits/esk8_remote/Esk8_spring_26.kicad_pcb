@@ -138,21 +138,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 270)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "f4fd0ea0-3021-4750-88fb-04f071d34a1e")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/5ca5c65b-3aa2-4433-87de-b2ecd1597b73")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -325,22 +319,16 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "connector/pin_header_socket"
-			(at 0 0 90)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "15069a71-da10-4f93-b08e-8fb6e9cef41f")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/af0b74d0-7288-4876-84d2-7ee5522dc693")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4" "5")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -594,21 +582,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 270)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "624815f0-5cdf-416a-b66a-fb643033af0d")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/5e02a6ea-b970-4cb1-9367-3f0d3b47c257")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -781,21 +763,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 180)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "a4bb84bd-4b7d-408a-87d2-acdc693deb8c")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/e9c7586d-2f66-4d65-82e4-cb67b626f069")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -968,21 +944,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 180)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "eb313e2a-270e-4f9f-a75f-75488131c83f")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/aee04fe6-2d4d-4b28-91f7-b90214b38c46")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1163,7 +1133,13 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/d36277d8-1402-4610-89a4-254d1a3a7a9d")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1530,7 +1506,7 @@
 				)
 			)
 		)
-		(property "Value" "100nf"
+		(property "Value" "100uf"
 			(at 2.5 -0.5 0)
 			(layer "F.SilkS")
 			(uuid "e0a84b04-9df2-43e7-80e0-b5a0699a6ab0")
@@ -1563,22 +1539,16 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "capacitor/THT/other"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "677015d0-2b5a-44c6-bdfa-779cb632d03e")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(property ki_fp_filters "C_*")
 		(path "/fda0e032-aa48-4742-aa19-afc71f306a43")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1758,21 +1728,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "LED/THT"
-			(at 0 0 90)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "031866a0-aee0-4406-b38c-0ffb8829c3af")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/87b267d3-6dec-426a-a914-89d3488b234d")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1964,21 +1928,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 180)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "6d87bf52-4756-434e-8186-ff9c54223b0c")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/00c393a4-504c-4449-b3b3-8d721526b428")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2151,21 +2109,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "574c71a0-a16d-4f97-b4ed-db61cf023711")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/834f2872-2594-47a6-9aeb-5c15b9c1620e")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2338,21 +2290,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "LED/THT"
-			(at 0 0 270)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "a2f42793-1b3f-4167-bac0-89da6aab9392")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/aac9c051-17c7-472e-b0ad-4658ba542ff3")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2544,21 +2490,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "b90b8f88-3fb0-4976-9caa-7f8683c5282a")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(path "/f1410307-97af-4079-94d2-cb2b8f9214ba")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2698,7 +2638,7 @@
 				)
 			)
 		)
-		(property "Value" "100nf"
+		(property "Value" "100uf"
 			(at 2.5 0 180)
 			(layer "F.SilkS")
 			(uuid "f6e69a03-c7d0-4324-bea8-076f4acb082d")
@@ -2731,22 +2671,16 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "capacitor/THT/other"
-			(at 0 0 180)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "46dad52b-a9b6-49d7-b40d-1cd9b302f866")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(property ki_fp_filters "C_*")
 		(path "/0367dd60-c0d4-4f58-94ab-91886dec793f")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2935,7 +2869,13 @@
 		)
 		(path "/905a9f84-5885-4c1d-9e1c-66b56578ecc3")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "2" "1" "4" "3" "6" "5" "8" "7")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_rect
@@ -3133,7 +3073,15 @@
 		)
 		(path "/f159e970-3dad-4a78-8bff-631b50fad785")
 		(sheetname "/")
-		(sheetfile "Esk8_spring_26_2.kicad_sch")
+		(sheetfile "Esk8_spring_26.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "A4" "A5" "24"
+					"23" "22" "21" "20" "19" "18" "17" "16" "15" "14" "13" "A7" "A6"
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_rect

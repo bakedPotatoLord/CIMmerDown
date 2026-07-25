@@ -5,3 +5,6 @@
 .vscode/ipch
 
 .history
+
+# kicad lockfile
+*.lck
